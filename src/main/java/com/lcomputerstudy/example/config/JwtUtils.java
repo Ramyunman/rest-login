@@ -1,13 +1,15 @@
 package com.lcomputerstudy.example.config;
 
 import java.util.Date;
+
 import java.util.HashMap;
 import java.util.Map;
-import javax.xml.bind.DatatypeConverter;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
+import java.util.Base64;
 import com.lcomputerstudy.example.domain.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -48,7 +50,8 @@ public class JwtUtils {
 	}
 	
 	 private static Claims getClaimsFormToken(String token) {
-        return (Claims) Jwts.parser().setSigningKey(DatatypeConverter.parseBase64Binary(jwtSecret))
+		 byte[] jwtSecretBytes = Base64.getDecoder().decode(jwtSecret);
+         return (Claims) Jwts.parser().setSigningKey(jwtSecretBytes)
         		.parseClaimsJws(token).getBody();
     }
 	 
