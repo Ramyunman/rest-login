@@ -9,6 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
+
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import com.lcomputerstudy.example.domain.User;
 import io.jsonwebtoken.Claims;
@@ -33,15 +35,17 @@ public class JwtUtils {
 	
 	//jwt 생성 메소드
 	public String generateJwtToken(Authentication authentication) {
-
 		User user = (User) authentication.getPrincipal();
-		//builder 패턴을 이용하여 jwt생성
-		return Jwts.builder()
-				.setSubject((user.getUsername()))
+		
+		// JWT 토큰 생성
+		String jwtToken = Jwts.builder()
+				.setSubject(user.getUsername())
 				.setIssuedAt(new Date())
-				.setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
-				.signWith(SignatureAlgorithm.HS512, jwtSecret)
+				.setExpiration(new Date(new Date().getTime() + jwtExpirationMs))
+				.signWith(SignatureAlgorithm.HS512, Base64.getEncoder().encodeToString(jwtSecret.getBytes(StandardCharsets.UTF_8)))
 				.compact();
+		
+		return jwtToken;
 	}
 	
 	//토큰을 이용하여 유저 아이디 불러오는 메소드
