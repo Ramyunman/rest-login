@@ -4,17 +4,17 @@
 	 <!-- 권한 읽기 -->
     <select id="readAuthorities" parameterType="String" resultType="org.springframework.security.core.authority.SimpleGrantedAuthority">
     	SELECT			u_auth
-    	FROM				userauth
+    	FROM			userauth
     	WHERE 			1=1
     	AND				u_id = #{username}
     </select>
 
 	<!-- 회원 불러오기 -->
 	<select id="readUser" parameterType="String" resultType="User">
-		SELECT			u_id											as 	username,
-								u_password 							as 	password,
-								u_name									as	    name,
-								u_phone									as		phone,
+		SELECT					u_id						as 	username,
+								u_password					as 	password,
+								u_name						as	    name,
+								u_phone						as		phone,
 								u_isAccountNonExpired 		as 	isAccountNonExpired,
 		        				u_isAccountNonLocked 		as 	isAccountNonLocked,
 		        				u_isCredentialNonExpired 	as 	isCredentialsNonExpired,
@@ -26,7 +26,7 @@
 	
 	<!-- 회원 불러오기(새로고침) -->
 	<select id="readUser_refresh" parameterType="String" resultType="UserInfo">
-		SELECT			u_id											as 	username,
+		SELECT					u_id									as 	username,
 								u_name									as	    name,
 								u_phone									as		phone
 		FROM			userlist 
@@ -36,7 +36,7 @@
 	<!-- 권한 읽기(새로고침) -->
     <select id="readAuthorities_refresh" parameterType="String" resultType="org.springframework.security.core.authority.SimpleGrantedAuthority">
     	SELECT			u_auth
-    	FROM				userauth
+    	FROM			userauth
     	WHERE 			1=1
     	AND				u_id = #{username}
     </select>
@@ -65,13 +65,13 @@
 	</insert>	
 	<!-- 회원 목록 불러오기(admin) -->
     <select id="read_user_list"  resultType="UserInfo">
-    	SELECT		ta.u_id					username,
+    	SELECT				ta.u_id				username,
     						ta.u_name			name,
     						ta.u_phone			phone,
 							tb.u_auth			auth
-		FROM			userlist ta
+		FROM				userlist ta
 		LEFT join	(
-								SELECT		ta.u_id,
+								SELECT			ta.u_id,
 													GROUP_CONCAT(ta.u_auth SEPARATOR ",") u_auth
 								FROM			userauth ta
 								GROUP BY		ta.u_id
