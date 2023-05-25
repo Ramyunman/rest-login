@@ -5,6 +5,7 @@ public class JoinRequest {
 	private String password;
 	private String name;
 	private String phone;
+	
 	public String getUsername() {
 		return username;
 	}
