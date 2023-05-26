@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.xml.bind.DatatypeConverter;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -54,9 +56,11 @@ public class JwtUtils {
 	}
 	
 	 private static Claims getClaimsFormToken(String token) {
-		 byte[] jwtSecretBytes = Base64.getDecoder().decode(jwtSecret);
-         return (Claims) Jwts.parser().setSigningKey(jwtSecretBytes)
-        		.parseClaimsJws(token).getBody();
+		 //byte[] jwtSecretBytes1 = Base64.getDecoder().decode(jwtSecret);
+		 byte[] jwtSecretBytes2 = DatatypeConverter.parseBase64Binary(jwtSecret);
+		 //System.out.println(jwtSecretBytes1);
+		 System.out.println(jwtSecretBytes2);
+         return (Claims) Jwts.parser().setSigningKey(jwtSecretBytes2).parseClaimsJws(token).getBody();
     }
 	 
 	 public static String getUserEmailFromToken(String token) {

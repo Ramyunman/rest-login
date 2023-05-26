@@ -14,9 +14,11 @@ public class WebConfig implements WebMvcConfigurer {
 	   @Override
 	    public void addCorsMappings(CorsRegistry registry) {
 	        registry.addMapping("/**")
-	            .allowedOrigins("http://localhost:8080") // vue 서버의 도메인, 포트로 수정
+	            .allowedOrigins("*") // vue 서버의 도메인, 포트로 수정
 	            .allowedMethods("*")
-	        	.exposedHeaders("jwt-token");
+	        	//.exposedHeaders("jwt-token");
+	        	.exposedHeaders("Authorization");
+	        
 	    }
 	   
 
