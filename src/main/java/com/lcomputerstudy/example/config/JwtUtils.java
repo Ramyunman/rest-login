@@ -52,15 +52,11 @@ public class JwtUtils {
 	
 	//토큰을 이용하여 유저 아이디 불러오는 메소드
 	public String getUserNameFromJwtToken(String token) {
-		return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
+		return Jwts.parser().setSigningKey(jwtSecret.getBytes(StandardCharsets.UTF_8)).parseClaimsJws(token).getBody().getSubject();
 	}
 	
 	 private static Claims getClaimsFormToken(String token) {
-		 byte[] jwtSecretBytes1 = Base64.getDecoder().decode(jwtSecret);
-		 //byte[] jwtSecretBytes2 = DatatypeConverter.parseBase64Binary(jwtSecret);
-		 System.out.println(jwtSecretBytes1);
-		 //System.out.println(jwtSecretBytes2);
-         return Jwts.parser().setSigningKey(jwtSecretBytes1).parseClaimsJws(token).getBody();
+         return (Claims) Jwts.parser().setSigningKey(jwtSecret.getBytes(StandardCharsets.UTF_8)).parseClaimsJws(token).getBody();
     }
 	 
 	 public static String getUserEmailFromToken(String token) {
@@ -74,7 +70,7 @@ public class JwtUtils {
 	//jwt 유효성 검사 메소드
 	public boolean validateJwtToken(String authToken) {
 		try {
-			Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
+			Jwts.parser().setSigningKey(jwtSecret.getBytes()).parseClaimsJws(authToken);
 			return true;
 		} catch (SignatureException e) {
 			logger.error("Invalid JWT signature: {}", e.getMessage());
